@@ -1,0 +1,31 @@
+{
+  "name": "shopify_store_traffic_api",
+  "version": "1.0.0",
+  "description": "Check the traffic of the Shopify store list with unofficial similarweb API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config scripts/start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chat-data-llc/shopify_store_traffic_api.git"
+  },
+  "keywords": [
+    "Shopify",
+    "Shopify stores",
+    "SimilarWeb API",
+    "similarweb",
+    "traffic check"
+  ],
+  "author": "Chat Data LLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chat-data-llc/shopify_store_traffic_api/issues"
+  },
+  "homepage": "https://github.com/chat-data-llc/shopify_store_traffic_api#readme",
+  "dependencies": {
+    "readline": "^3.0.0",
+    "dotenv": "^16.4.0",
+    "fs": "^0.0.1-security"
+  }
+}
