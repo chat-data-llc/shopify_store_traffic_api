@@ -11,35 +11,51 @@ const getTraffic = async (domain) => {
             'cookie': `.DEVICETOKEN.SIMILARWEB.COM=${process.env.DEVICETOKEN}; .SGTOKEN.SIMILARWEB.COM=${process.env.SGTOKEN};`,
         }
     };
-    try {
-        const response = await fetch(url, options);
-        const trafficData = await response.json();
-        const totalVisits = trafficData.Data[domain].TotalVisits.toFixed(0)
-        return totalVisits;
-    } catch (err) {
-        console.error(err);
-        return 0;
+    const maxRetries = 3; // set the maximum number of retries here
+    let retryCount = 0;
+    while (retryCount < maxRetries) {
+        try {
+            const response = await fetch(url, options);
+            const trafficData = await response.json();
+            const totalVisits = trafficData.Data[domain].TotalVisits.toFixed(0)
+            return totalVisits;
+        } catch (err) {
+            retryCount++;
+            if (retryCount === maxRetries) {
+                return 0;
+            }
+            // add a delay before retrying to avoid flooding the server with requests
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+        }
     }
-
 }
 
 const checkRedirect = async (originalDomain) => {
     const shopifyDomain = `http://${originalDomain}`;
-    try {
-        const response = await fetch(shopifyDomain, {
-            method: 'GET',
-            redirect: 'manual' // This prevents the fetch call from following redirects automatically.
-        });
-        // If there is a redirect, the 'Location' header contains the URL it redirects to.
-        if (response.status === 301 || response.status === 302) {
-            const redirectedUrl = response.headers.get('location');
-            return redirectedUrl;
-        } else {
-            return shopifyDomain;
+    const maxRetries = 3; // set the maximum number of retries here
+    let retryCount = 0;
+    while (retryCount < maxRetries) {
+        try {
+            const response = await fetch(shopifyDomain, {
+                method: 'GET',
+                redirect: 'manual' // This prevents the fetch call from following redirects automatically.
+            });
+
+            // If there is a redirect, the 'Location' header contains the URL it redirects to.
+            if (response.status === 301 || response.status === 302) {
+                const redirectedUrl = response.headers.get('location');
+                return redirectedUrl;
+            } else {
+                return shopifyDomain;
+            }
+        } catch (error) {
+            retryCount++;
+            if (retryCount === maxRetries) {
+                return shopifyDomain;
+            }
+            // add a delay before retrying to avoid flooding the server with requests
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
         }
-    } catch (err) {
-        console.error(err);
-        return shopifyDomain;
     }
 };
 
