@@ -6,6 +6,10 @@ Our marketing strategy's initial step involves targeting the largest Shopify sto
 
 The primary output is the traffic-sorted file [data/stores_traffic.csv](./data/stores_traffic.csv). For demonstration, we've included 200 Shopify stores with moderate traffic levels. For access to a list of higher-traffic stores, please contact us at admin@chat-data.com.
 
+# Video Demo
+
+[![We used this free API to Get the traffic of 200 Shopify stores in within 1 minutes](http://img.youtube.com/vi/ynaEEvb3XeY/0.jpg)](http://www.youtube.com/watch?v=ynaEEvb3XeY "We used this free API to Get the traffic of 200 Shopify stores in within 1 minutes")
+
 ## How to run the script
 
 ### 1. Clone the repo
